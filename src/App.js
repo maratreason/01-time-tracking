@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 import TimersDashboard from "./containers/TimersDashboard/TimersDashboard"
 
 function App() {

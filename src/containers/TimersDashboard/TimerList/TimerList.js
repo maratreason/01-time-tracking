@@ -2,13 +2,19 @@ import React from "react"
 
 import EditableTimer from "./EditableTimer/EditableTimer"
 
-const TimerList = ({ timers, onStartTimerHandle, onStopTimerHandle, onRemoveTimerHandle, onUpdateTimerHandle, onToggleFormHandle }) => {
-
-  const timer = timers.map(timer => {
+const TimerList = ({
+  timers,
+  onStartTimerHandle,
+  onStopTimerHandle,
+  onRemoveTimerHandle,
+  onUpdateTimerHandle,
+  onToggleFormHandle,
+}) => {
+  const timer = timers.map(currentTimer => {
     return (
       <EditableTimer
-        {...timer}
-        key={timer.id}
+        {...currentTimer}
+        key={currentTimer.id}
         onStartTimerHandle={onStartTimerHandle}
         onStopTimerHandle={onStopTimerHandle}
         onRemoveTimerHandle={onRemoveTimerHandle}
@@ -18,11 +24,7 @@ const TimerList = ({ timers, onStartTimerHandle, onStopTimerHandle, onRemoveTime
     )
   })
 
-  return (
-    <div id='timers'>
-      { timer }
-    </div>
-  )
+  return <div id="timers">{timer}</div>
 }
 
 export default TimerList
