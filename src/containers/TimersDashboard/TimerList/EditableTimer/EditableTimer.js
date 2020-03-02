@@ -4,42 +4,41 @@ import Timer from "./Timer/Timer"
 import TimerForm from "../../../../components/TimerForm/TimerForm"
 
 class EditableTimer extends Component {
-
   state = {
     isOpen: false,
-    editFormOpen: false
   }
 
-  onEditTimer = () => {
-    this.setState({ isOpen: true })
+  onOpenTimer = () => {
+    this.setState({ isOpen: false })
   }
 
   onOpenEditForm = () => {
-    this.setState({ editFormOpen: true })
+    this.setState({ isOpen: true })
   }
 
   render() {
-    const { editFormOpen } = this.state
-    const { onToggleFormHandle } = this.props
+    const { isOpen } = this.state
+    const { onToggleFormHandle, onUpdateTimerHandle } = this.props
 
-    if (editFormOpen) {
+    if (isOpen) {
       return (
         <TimerForm
-          { ...this.props }
+          {...this.props}
+          onOpenTimer={this.onOpenTimer}
           onOpenEditForm={this.onOpenEditForm}
-          onUpdateTimerHandle={this.props.onUpdateTimerHandle}
+          onUpdateTimerHandle={onUpdateTimerHandle}
           onToggleFormHandle={onToggleFormHandle}
         />
-      );
-    } else {
-      return (
-        <Timer
-          { ...this.props }
-          onEditTimer={this.onEditTimer}
-          onOpenEditForm={this.onOpenEditForm}
-        />
-      );
+      )
     }
+
+    return (
+      <Timer
+        {...this.props}
+        onOpenTimer={this.onOpenTimer}
+        onOpenEditForm={this.onOpenEditForm}
+      />
+    )
   }
 }
 
