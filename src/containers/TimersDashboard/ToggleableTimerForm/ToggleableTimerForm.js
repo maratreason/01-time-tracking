@@ -10,7 +10,7 @@ class ToggleableTimerForm extends Component {
     this.setState({ isOpen: true })
   }
 
-  isCloseFormHandle = () => {
+  closeForm = () => {
     this.setState({ isOpen: false })
   }
 
@@ -22,7 +22,7 @@ class ToggleableTimerForm extends Component {
         {isOpen ? (
           <TimerForm
             isOpen={isOpen}
-            isCloseFormHandle={this.isCloseFormHandle}
+            closeForm={this.closeForm}
             {...this.props}
           />
         ) : (

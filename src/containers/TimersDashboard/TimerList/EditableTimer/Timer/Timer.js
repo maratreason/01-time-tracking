@@ -8,30 +8,30 @@ class Timer extends Component {
     clearInterval(this.timerId)
   }
 
-  onStartTimer = () => {
-    const { onStartTimerHandle, id } = this.props
+  onStartTimerHandle = () => {
+    const { startTimer, id } = this.props
 
     this.timerId = setInterval(() => {
       this.forceUpdate()
     }, 1000)
 
-    onStartTimerHandle(id)
+    startTimer(id)
   }
 
-  onStopTimer = () => {
-    const { id, onStopTimerHandle } = this.props
-    onStopTimerHandle(id)
+  onStopTimerHandle = () => {
+    const { id, stopTimer } = this.props
+    stopTimer(id)
   }
 
   render() {
     const {
-      elapsed,
-      runningSince,
+      id,
       title,
       project,
-      id,
+      elapsed,
+      runningSince,
       onOpenEditForm,
-      onRemoveTimerHandle,
+      removeTimer,
     } = this.props
     const elapsedString = renderElapsedString(elapsed, runningSince)
 
@@ -48,20 +48,17 @@ class Timer extends Component {
               <i className="edit icon" onClick={() => onOpenEditForm()} />
             </span>
             <span className="right floated trash icon">
-              <i
-                className="trash icon"
-                onClick={() => onRemoveTimerHandle(id)}
-              />
+              <i className="trash icon" onClick={() => removeTimer(id)} />
             </span>
           </div>
         </div>
         <TimerActionButton
           runningSince={runningSince}
           onStartTimerHandle={() => {
-            this.onStartTimer()
+            this.onStartTimerHandle()
           }}
           onStopTimerHandle={() => {
-            this.onStopTimer()
+            this.onStopTimerHandle()
           }}
         />
       </div>

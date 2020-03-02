@@ -31,7 +31,7 @@ class TimersDashboard extends Component {
     isOpen: false,
   }
 
-  onAddTimerHandle = obj => {
+  addTimer = obj => {
     const { timers } = this.state
 
     const id = timers.length + 1
@@ -47,7 +47,7 @@ class TimersDashboard extends Component {
     })
   }
 
-  onUpdateTimerHandle = (id, formData) => {
+  updateTimer = (id, formData) => {
     const { timers } = this.state
 
     const updatedTimers = timers.map(timer => {
@@ -66,14 +66,14 @@ class TimersDashboard extends Component {
   }
 
   // переименовать в removeTimer()
-  onRemoveTimerHandle = id => {
+  removeTimer = id => {
     const { timers } = this.state
 
     const updatedTimers = timers.filter(timer => timer.id !== id)
     this.setState({ timers: updatedTimers })
   }
 
-  onStartTimerHandle = id => {
+  startTimer = id => {
     const { timers } = this.state
     const updatedTimers = timers.map(timer => {
       if (timer.id === id) {
@@ -89,7 +89,7 @@ class TimersDashboard extends Component {
     this.setState({ timers: updatedTimers })
   }
 
-  onStopTimerHandle = id => {
+  stopTimer = id => {
     const { timers } = this.state
 
     const updatedTimers = timers.map(timer => {
@@ -106,7 +106,7 @@ class TimersDashboard extends Component {
     })
   }
 
-  onToggleFormHandle = () => {
+  toggleForm = () => {
     const { isOpen } = this.state
     this.setState({ isOpen: !isOpen })
   }
@@ -119,16 +119,16 @@ class TimersDashboard extends Component {
         <div className="column">
           <TimerList
             timers={timers}
-            onStartTimerHandle={this.onStartTimerHandle}
-            onStopTimerHandle={this.onStopTimerHandle}
-            onRemoveTimerHandle={this.onRemoveTimerHandle}
-            onUpdateTimerHandle={this.onUpdateTimerHandle}
-            onToggleFormHandle={this.onToggleFormHandle}
+            startTimer={this.startTimer}
+            stopTimer={this.stopTimer}
+            removeTimer={this.removeTimer}
+            updateTimer={this.updateTimer}
+            toggleForm={this.toggleForm}
           />
           <ToggleableTimerForm
             isOpen={isOpen}
-            onAddTimerHandle={this.onAddTimerHandle}
-            onToggleFormHandle={this.onToggleFormHandle}
+            addTimer={this.addTimer}
+            toggleForm={this.toggleForm}
           />
         </div>
       </div>

@@ -14,26 +14,26 @@ class TimerForm extends Component {
   }
 
   onCreateFormHandle = () => {
-    const { onAddTimerHandle } = this.props
+    const { addTimer } = this.props
 
-    onAddTimerHandle(this.state)
+    addTimer(this.state)
     this.setState({ title: "", project: "" })
     this.onCancelFormHandle()
   }
 
   onUpdateFormHandle = () => {
-    const { onUpdateTimerHandle, onOpenTimer, id } = this.props
+    const { updateTimer, onOpenTimer, id } = this.props
 
-    onUpdateTimerHandle(id, this.state)
+    updateTimer(id, this.state)
     this.setState({ title: "", project: "" })
     onOpenTimer()
   }
 
   onCancelFormHandle = () => {
-    const { onOpenTimer, isCloseFormHandle } = this.props
+    const { onOpenTimer, closeForm } = this.props
 
     onOpenTimer && onOpenTimer()
-    isCloseFormHandle && isCloseFormHandle()
+    closeForm && closeForm()
   }
 
   render() {

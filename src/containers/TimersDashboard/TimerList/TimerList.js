@@ -4,22 +4,22 @@ import EditableTimer from "./EditableTimer/EditableTimer"
 
 const TimerList = ({
   timers,
-  onStartTimerHandle,
-  onStopTimerHandle,
-  onRemoveTimerHandle,
-  onUpdateTimerHandle,
-  onToggleFormHandle,
+  startTimer,
+  stopTimer,
+  removeTimer,
+  updateTimer,
+  toggleForm,
 }) => {
   const timer = timers.map(currentTimer => {
     return (
       <EditableTimer
         {...currentTimer}
         key={currentTimer.id}
-        onStartTimerHandle={onStartTimerHandle}
-        onStopTimerHandle={onStopTimerHandle}
-        onRemoveTimerHandle={onRemoveTimerHandle}
-        onUpdateTimerHandle={onUpdateTimerHandle}
-        onToggleFormHandle={onToggleFormHandle}
+        startTimer={startTimer}
+        stopTimer={stopTimer}
+        removeTimer={removeTimer}
+        updateTimer={updateTimer}
+        toggleForm={toggleForm}
       />
     )
   })
