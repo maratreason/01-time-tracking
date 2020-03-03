@@ -28,9 +28,11 @@ class TimersDashboard extends Component {
         runningSince: null,
       },
     ],
+    // you don't need it here anymore
     isOpen: false,
   }
 
+  // obj is very common name, try to be more specific
   addTimer = obj => {
     const { timers } = this.state
 
@@ -42,6 +44,9 @@ class TimersDashboard extends Component {
       runningSince: null,
     }
 
+    // https://en.reactjs.org/docs/update.html
+    // try to figure out how it works and replace the code below
+    // and in other places of app where you need immutable data
     this.setState({
       timers: [...timers, newTimer],
     })
@@ -106,6 +111,7 @@ class TimersDashboard extends Component {
     })
   }
 
+  // you don't need it here anymore
   toggleForm = () => {
     const { isOpen } = this.state
     this.setState({ isOpen: !isOpen })

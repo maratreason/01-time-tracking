@@ -2,12 +2,15 @@ import React, { Component } from "react"
 
 class TimerForm extends Component {
   state = {
+    // you could add this rule in .eslintrc config
     // eslint-disable-next-line react/destructuring-assignment
     title: this.props.title || "",
     // eslint-disable-next-line react/destructuring-assignment
     project: this.props.project || "",
   }
 
+  // don't reduce the name of variable even if it's obvious
+  // use event instead of e
   onChangeInput = e => {
     const { name, value } = e.target
     this.setState({ [name]: value })
@@ -38,6 +41,8 @@ class TimerForm extends Component {
 
   render() {
     const { title, project } = this.state
+    // why do you use it here?
+    // you already initialize your state with default values
     const { title: propsTitle, project: propsProject } = this.props
 
     return (
@@ -49,6 +54,8 @@ class TimerForm extends Component {
               <input
                 name="title"
                 type="text"
+                // you always create a new object here
+                // better make an extra method and put only the link here
                 onChange={e => this.onChangeInput(e)}
                 value={title}
               />
