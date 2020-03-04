@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import update from "immutability-helper"
+
 import {
   getTimers,
   createTimer,
@@ -20,7 +20,6 @@ class TimersDashboard extends Component {
 
   componentDidMount() {
     getTimers().then(response => {
-      console.log(response)
       this.setState({ timers: response })
     })
   }
@@ -36,11 +35,7 @@ class TimersDashboard extends Component {
       runningSince: null,
     }
 
-    // const newData = update(timers, { $push: [newTimer] })
-    // this.setState({ timers: newData })
-
     createTimer({ ...newTimer }).then(response => {
-      console.log(response)
       this.setState({ timers: response })
     })
   }
