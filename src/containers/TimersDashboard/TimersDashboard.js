@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import update from "immutability-helper"
 
 import TimerList from "./TimerList/TimerList"
 import ToggleableTimerForm from "./ToggleableTimerForm/ToggleableTimerForm"
@@ -44,12 +45,18 @@ class TimersDashboard extends Component {
       runningSince: null,
     }
 
+    // https://www.youtube.com/watch?v=Wo0qiGPSV-s
     // https://en.reactjs.org/docs/update.html
     // try to figure out how it works and replace the code below
     // and in other places of app where you need immutable data
     this.setState({
-      timers: [...timers, newTimer],
+      timers: update(timers, {
+        $push: [newTimer]
+      }),
     })
+    // this.setState({
+    //   timers: [...timers, newTimer],
+    // })
   }
 
   updateTimer = (id, formData) => {
