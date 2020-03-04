@@ -4,6 +4,26 @@ import TimerActionButton from "./TimerActionButton"
 import { renderElapsedString } from "../../../../../utils"
 
 class Timer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { a: 1 }
+    console.log("timer construcctor")
+  }
+
+  static getDerivedStateFromProps() {
+    console.log("timer getDerivedStateFromProps")
+    return null
+  }
+
+  shouldComponentUpdate(nextProps, nextState, snapShot) {
+    console.log("timer should component update")
+    return false
+  }
+
+  componentDidMount() {
+    console.log("timer did mount")
+  }
+
   componentWillUnmount() {
     clearInterval(this.timerId)
   }
@@ -20,10 +40,13 @@ class Timer extends Component {
 
   onStopTimerHandle = () => {
     const { id, stopTimer } = this.props
+    clearInterval(this.timerId)
     stopTimer(id)
   }
 
   render() {
+    console.log("timer render")
+
     const {
       id,
       title,
@@ -34,6 +57,8 @@ class Timer extends Component {
       removeTimer,
     } = this.props
     const elapsedString = renderElapsedString(elapsed, runningSince)
+
+    console.log("runningSince", runningSince)
 
     return (
       <div className="ui centered card">

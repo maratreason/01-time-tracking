@@ -1,20 +1,9 @@
 [
     {
-        "title": "Mow the lawn",
-        "project": "House Chores",
-        "elapsed": 5510288,
-        "id": "0a4a79cb-b06d-4cb1-883d-549a1e3b66d7"
-    },
-    {
-        "title": "New timer",
-        "project": "New project",
-        "id": "963909ac-efab-401c-a8dc-302253f7712c",
-        "elapsed": 76671
-    },
-    {
-        "title": "1212",
-        "project": "1212",
-        "id": 4,
-        "elapsed": 0
+        "title": "12",
+        "project": "12",
+        "id": 471.0225577354812,
+        "elapsed": 0,
+        "runningSince": null
     }
 ]

@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import update from "immutability-helper"
 
 import {
   getTimers,
@@ -16,10 +17,18 @@ class TimersDashboard extends Component {
   state = {
     timers: [],
     isOpen: false,
+    // loading: false,
+  }
+
+  componentDidUpdate() {
+    console.log("Dashboard did update")
   }
 
   componentDidMount() {
-    getTimers().then(response => {
+    console.log("Dashboard did mount")
+    // this.setState({ loading: true })
+    getTimers(response => {
+      console.log(response)
       this.setState({ timers: response })
     })
   }
@@ -27,7 +36,7 @@ class TimersDashboard extends Component {
   addTimer = inputValues => {
     const { timers } = this.state
 
-    const id = timers.length + 1
+    const id = Math.random() * 1000
     const newTimer = {
       ...inputValues,
       id,
@@ -35,28 +44,27 @@ class TimersDashboard extends Component {
       runningSince: null,
     }
 
-    createTimer({ ...newTimer }).then(response => {
-      this.setState({ timers: response })
-    })
+    this.setState({ timers: [...timers, newTimer] })
+    createTimer(newTimer)
   }
 
   updateTimer = (id, formData) => {
     const { timers } = this.state
 
-    timers.map(timer => {
-      let updatedTimer = {}
-
+    const updatedTimers = timers.map(timer => {
       if (timer.id === id) {
-        updatedTimer = {
+        return {
           ...timer,
           title: formData.title,
           project: formData.project,
         }
       }
 
-      updateTimer(updatedTimer)
       return timer
     })
+
+    this.setState({ timers: updatedTimers })
+    updateTimer({ ...formData, id })
   }
 
   removeTimer = id => {
@@ -74,28 +82,14 @@ class TimersDashboard extends Component {
   startTimer = id => {
     const { timers } = this.state
 
-    timers.map(timer => {
+    const updatedTimers = timers.map(timer => {
+      console.log("start timer", timer)
       if (timer.id === id) {
         return {
           ...timer,
           runningSince: Date.now(),
         }
       }
-      startTimer(timer)
-
-      return timer
-    })
-  }
-
-  stopTimer = id => {
-    const { timers } = this.state
-
-    const updatedTimers = timers.map(timer => {
-      if (timer.id === id) {
-        timer.elapsed = timer.elapsed + Date.now() - timer.runningSince
-        timer.runningSince = null
-      }
-      stopTimer(timer)
 
       return timer
     })
@@ -103,21 +97,48 @@ class TimersDashboard extends Component {
     this.setState({ timers: updatedTimers })
   }
 
+  stopTimer = id => {
+    console.log("id", id)
+    const { timers } = this.state
+
+    const updatedTimers = timers.map(timer => {
+      console.log("stop timer", timer)
+      if (timer.id === id) {
+        return {
+          ...timer,
+          elapsed: timer.elapsed + Date.now() - timer.runningSince,
+          runningSince: null,
+        }
+        // timer.elapsed = timer.elapsed + Date.now() - timer.runningSince
+        // timer.runningSince = null
+      }
+
+      return timer
+    })
+    console.log("updatedTimers", updatedTimers)
+    this.setState({ timers: updatedTimers })
+    // stopTimer(timer)
+  }
+
   render() {
     const { timers, isOpen } = this.state
-
+    console.log("timers", timers)
     return (
       <div className="ui three column centered grid" style={{ width: "100%" }}>
-        <div className="column">
-          <TimerList
-            timers={timers}
-            startTimer={this.startTimer}
-            stopTimer={this.stopTimer}
-            removeTimer={this.removeTimer}
-            updateTimer={this.updateTimer}
-          />
-          <ToggleableTimerForm isOpen={isOpen} addTimer={this.addTimer} />
-        </div>
+        {false ? (
+          <div>Loading...</div>
+        ) : (
+          <div className="column">
+            <TimerList
+              timers={timers}
+              startTimer={this.startTimer}
+              stopTimer={this.stopTimer}
+              removeTimer={this.removeTimer}
+              updateTimer={this.updateTimer}
+            />
+            <ToggleableTimerForm isOpen={isOpen} addTimer={this.addTimer} />
+          </div>
+        )}
       </div>
     )
   }
