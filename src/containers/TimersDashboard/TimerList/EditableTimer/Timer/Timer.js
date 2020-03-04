@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, PureComponent } from "react"
 
 import TimerActionButton from "./TimerActionButton"
 import { renderElapsedString } from "../../../../../utils"
@@ -6,13 +6,23 @@ import { renderElapsedString } from "../../../../../utils"
 // there is a bug, when you click edit button and then cancel or update,
 // timer stop working correctly
 class Timer extends Component {
+  state = {
+    name: "Oleg",
+  }
+
   componentDidMount() {
     const { runningSince } = this.props
     this.startSetTimeout(runningSince)
   }
 
-  componentDidUpdate() {
+  // shouldComponentUpdate(nextProps) {
+  //   const { project, title } = this.props
+  //   return project !== nextProps.project || title !== nextProps.title
+  // }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const { runningSince } = this.props
+    console.log("[Timer] componentDidUpdate()", snapshot)
     if (runningSince) {
       this.startSetTimeout(runningSince)
     } else {
@@ -22,6 +32,16 @@ class Timer extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timerId)
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      name: "Kirill"
+    }
+  }
+
+  getSnapshotBeforeUpdate() {
+    return "snpashot data"
   }
 
   onStartTimerHandle = () => {

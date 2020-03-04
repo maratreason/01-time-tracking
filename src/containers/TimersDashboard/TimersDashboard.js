@@ -13,6 +13,7 @@ class TimersDashboard extends Component {
         elapsed: 5510288,
         id: "0a4a79cb-b06d-4cb1-883d-549a1e3b66d7",
         runningSince: null,
+        array: [1, 2, 3],
       },
       {
         title: "New timer",
@@ -20,6 +21,7 @@ class TimersDashboard extends Component {
         id: "963909ac-efab-401c-a8dc-302253f7712c",
         elapsed: 76671,
         runningSince: null,
+        array: [1, 2, 3],
       },
       {
         title: "Timer22",
@@ -27,10 +29,12 @@ class TimersDashboard extends Component {
         id: "be0b93eb-935d-4663-a6f0-7b284d5c7cfb",
         elapsed: 33642,
         runningSince: null,
+        array: [1, 2, 3],
       },
     ],
     // you don't need it here anymore
     isOpen: false,
+    showError: false,
   }
 
   // obj is very common name, try to be more specific
@@ -49,11 +53,19 @@ class TimersDashboard extends Component {
     // https://en.reactjs.org/docs/update.html
     // try to figure out how it works and replace the code below
     // and in other places of app where you need immutable data
+
     this.setState({
       timers: update(timers, {
         $push: [newTimer]
       }),
     })
+
+    timers.forEach(timer => {
+      if (timer.id === "0a4a79cb-b06d-4cb1-883d-549a1e3b66d7") {
+        timer.array.push(4)
+      }
+    })
+
     // this.setState({
     //   timers: [...timers, newTimer],
     // })
@@ -124,26 +136,50 @@ class TimersDashboard extends Component {
     this.setState({ isOpen: !isOpen })
   }
 
+  static getDerivedStateFromError(error) {
+    // Example "componentStack":
+    //   in ComponentThatThrows (created by App)
+    //   in ErrorBoundary (created by App)
+    //   in div (created by App)
+    //   in App
+    console.log("error", error)
+    return {
+      showError: true,
+    }
+  }
+
+  onUpdateFormHandle = () => {
+    const { updateTimer, onOpenTimer, id } = this.props
+
+    updateTimer(id, this.state)
+    this.setState({ title: "", project: "" })
+    onOpenTimer()
+  }
+
   render() {
-    const { timers, isOpen } = this.state
+    const { timers, isOpen, showError } = this.state
 
     return (
       <div className="ui three column centered grid" style={{ width: "100%" }}>
-        <div className="column">
-          <TimerList
-            timers={timers}
-            startTimer={this.startTimer}
-            stopTimer={this.stopTimer}
-            removeTimer={this.removeTimer}
-            updateTimer={this.updateTimer}
-            toggleForm={this.toggleForm}
-          />
-          <ToggleableTimerForm
-            isOpen={isOpen}
-            addTimer={this.addTimer}
-            toggleForm={this.toggleForm}
-          />
-        </div>
+        {showError
+          ? <h1>Some error occured</h1>
+        : (
+          <div className="column">
+            <TimerList
+              timers={timers}
+              startTimer={this.startTimer}
+              stopTimer={this.stopTimer}
+              removeTimer={this.removeTimer}
+              updateTimer={this.updateTimer}
+              toggleForm={this.toggleForm}
+            />
+            <ToggleableTimerForm
+              isOpen={isOpen}
+              addTimer={this.addTimer}
+              toggleForm={this.toggleForm}
+            />
+          </div>
+)}
       </div>
     )
   }

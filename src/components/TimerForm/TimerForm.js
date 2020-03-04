@@ -18,18 +18,16 @@ class TimerForm extends Component {
 
   onCreateFormHandle = () => {
     const { addTimer } = this.props
+    console.log("addTimer", addTimer)
 
     addTimer(this.state)
     this.setState({ title: "", project: "" })
     this.onCancelFormHandle()
   }
 
-  onUpdateFormHandle = () => {
-    const { updateTimer, onOpenTimer, id } = this.props
-
-    updateTimer(id, this.state)
-    this.setState({ title: "", project: "" })
-    onOpenTimer()
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    console.log("error", error)
   }
 
   onCancelFormHandle = () => {
@@ -44,6 +42,7 @@ class TimerForm extends Component {
     // why do you use it here?
     // you already initialize your state with default values
     const { title: propsTitle, project: propsProject } = this.props
+    console.log("props", this.props)
 
     return (
       <div className="ui centered card">

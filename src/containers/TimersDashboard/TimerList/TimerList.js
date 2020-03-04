@@ -10,6 +10,9 @@ const TimerList = ({
   updateTimer,
   toggleForm,
 }) => {
+  // if (timers.length === 4) {
+  //   throw new Error ("not performing tonight!")
+  // }
   const timer = timers.map(currentTimer => {
     return (
       <EditableTimer

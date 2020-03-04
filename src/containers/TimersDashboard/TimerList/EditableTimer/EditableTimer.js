@@ -16,6 +16,16 @@ class EditableTimer extends Component {
     this.setState({ isOpen: true })
   }
 
+  static getDerivedStateFromError(error) {
+    console.log("error", error)
+    // Update state so the next render will show the fallback UI.
+  }
+
+  componentDidCatch(error, info) {
+    console.log("error", error)
+    console.log("info", info)
+  }
+
   render() {
     const { isOpen } = this.state
     const { onToggleFormHandle, onUpdateTimerHandle } = this.props
