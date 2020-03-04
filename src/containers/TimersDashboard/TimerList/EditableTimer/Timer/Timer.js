@@ -56,12 +56,8 @@ class Timer extends Component {
         </div>
         <TimerActionButton
           runningSince={runningSince}
-          onStartTimerHandle={() => {
-            this.onStartTimerHandle()
-          }}
-          onStopTimerHandle={() => {
-            this.onStopTimerHandle()
-          }}
+          onStartTimerHandle={this.onStartTimerHandle}
+          onStopTimerHandle={this.onStopTimerHandle}
         />
       </div>
     )
