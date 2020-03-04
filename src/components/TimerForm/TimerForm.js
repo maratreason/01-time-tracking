@@ -2,14 +2,12 @@ import React, { Component } from "react"
 
 class TimerForm extends Component {
   state = {
-    // eslint-disable-next-line react/destructuring-assignment
     title: this.props.title || "",
-    // eslint-disable-next-line react/destructuring-assignment
     project: this.props.project || "",
   }
 
-  onChangeInput = e => {
-    const { name, value } = e.target
+  onChangeInput = event => {
+    const { name, value } = event.target
     this.setState({ [name]: value })
   }
 
@@ -49,7 +47,7 @@ class TimerForm extends Component {
               <input
                 name="title"
                 type="text"
-                onChange={e => this.onChangeInput(e)}
+                onChange={this.onChangeInput}
                 value={title}
               />
             </div>
@@ -58,7 +56,7 @@ class TimerForm extends Component {
               <input
                 name="project"
                 type="text"
-                onChange={e => this.onChangeInput(e)}
+                onChange={this.onChangeInput}
                 value={project}
               />
             </div>

@@ -1,92 +1,95 @@
 import React, { Component } from "react"
+import update from "immutability-helper"
+import {
+  getTimers,
+  createTimer,
+  updateTimer,
+  deleteTimer,
+  startTimer,
+  stopTimer,
+} from "../../api"
 
 import TimerList from "./TimerList/TimerList"
 import ToggleableTimerForm from "./ToggleableTimerForm/ToggleableTimerForm"
 
 class TimersDashboard extends Component {
   state = {
-    timers: [
-      {
-        title: "Mow the lawn",
-        project: "House Chores",
-        elapsed: 5510288,
-        id: "0a4a79cb-b06d-4cb1-883d-549a1e3b66d7",
-        runningSince: null,
-      },
-      {
-        title: "New timer",
-        project: "New project",
-        id: "963909ac-efab-401c-a8dc-302253f7712c",
-        elapsed: 76671,
-        runningSince: null,
-      },
-      {
-        title: "Timer22",
-        project: "Project22",
-        id: "be0b93eb-935d-4663-a6f0-7b284d5c7cfb",
-        elapsed: 33642,
-        runningSince: null,
-      },
-    ],
+    timers: [],
     isOpen: false,
   }
 
-  addTimer = obj => {
+  componentDidMount() {
+    getTimers().then(response => {
+      console.log(response)
+      this.setState({ timers: response })
+    })
+  }
+
+  addTimer = inputValues => {
     const { timers } = this.state
 
     const id = timers.length + 1
     const newTimer = {
-      ...obj,
+      ...inputValues,
       id,
       elapsed: 0,
       runningSince: null,
     }
 
-    this.setState({
-      timers: [...timers, newTimer],
+    // const newData = update(timers, { $push: [newTimer] })
+    // this.setState({ timers: newData })
+
+    createTimer({ ...newTimer }).then(response => {
+      console.log(response)
+      this.setState({ timers: response })
     })
   }
 
   updateTimer = (id, formData) => {
     const { timers } = this.state
 
-    const updatedTimers = timers.map(timer => {
+    timers.map(timer => {
+      let updatedTimer = {}
+
       if (timer.id === id) {
-        return {
+        updatedTimer = {
           ...timer,
           title: formData.title,
           project: formData.project,
         }
       }
 
+      updateTimer(updatedTimer)
       return timer
     })
-
-    this.setState({ timers: updatedTimers })
   }
 
-  // переименовать в removeTimer()
   removeTimer = id => {
     const { timers } = this.state
 
-    const updatedTimers = timers.filter(timer => timer.id !== id)
-    this.setState({ timers: updatedTimers })
+    timers.map(timer => {
+      if (timer.id !== id) {
+        deleteTimer(timer)
+      }
+
+      return timer
+    })
   }
 
   startTimer = id => {
     const { timers } = this.state
-    const updatedTimers = timers.map(timer => {
+
+    timers.map(timer => {
       if (timer.id === id) {
         return {
           ...timer,
           runningSince: Date.now(),
         }
       }
+      startTimer(timer)
 
       return timer
     })
-
-    this.setState({ timers: updatedTimers })
   }
 
   stopTimer = id => {
@@ -97,18 +100,12 @@ class TimersDashboard extends Component {
         timer.elapsed = timer.elapsed + Date.now() - timer.runningSince
         timer.runningSince = null
       }
+      stopTimer(timer)
 
       return timer
     })
 
-    this.setState({
-      timers: updatedTimers,
-    })
-  }
-
-  toggleForm = () => {
-    const { isOpen } = this.state
-    this.setState({ isOpen: !isOpen })
+    this.setState({ timers: updatedTimers })
   }
 
   render() {
@@ -123,13 +120,8 @@ class TimersDashboard extends Component {
             stopTimer={this.stopTimer}
             removeTimer={this.removeTimer}
             updateTimer={this.updateTimer}
-            toggleForm={this.toggleForm}
           />
-          <ToggleableTimerForm
-            isOpen={isOpen}
-            addTimer={this.addTimer}
-            toggleForm={this.toggleForm}
-          />
+          <ToggleableTimerForm isOpen={isOpen} addTimer={this.addTimer} />
         </div>
       </div>
     )

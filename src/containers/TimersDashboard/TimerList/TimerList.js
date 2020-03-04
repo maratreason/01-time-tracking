@@ -8,7 +8,6 @@ const TimerList = ({
   stopTimer,
   removeTimer,
   updateTimer,
-  toggleForm,
 }) => {
   const timer = timers.map(currentTimer => {
     return (
@@ -19,7 +18,6 @@ const TimerList = ({
         stopTimer={stopTimer}
         removeTimer={removeTimer}
         updateTimer={updateTimer}
-        toggleForm={toggleForm}
       />
     )
   })
