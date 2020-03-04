@@ -3,6 +3,8 @@ import React, { Component } from "react"
 import TimerActionButton from "./TimerActionButton"
 import { renderElapsedString } from "../../../../../utils"
 
+// there is a bug, when you click edit button and then cancel or update,
+// timer stop working correctly
 class Timer extends Component {
   componentWillUnmount() {
     clearInterval(this.timerId)
