@@ -6,23 +6,41 @@ import { renderElapsedString } from "../../../../../utils"
 // there is a bug, when you click edit button and then cancel or update,
 // timer stop working correctly
 class Timer extends Component {
+  componentDidMount() {
+    const { runningSince } = this.props
+    this.startSetTimeout(runningSince)
+  }
+
+  componentDidUpdate() {
+    const { runningSince } = this.props
+    if (runningSince) {
+      this.startSetTimeout(runningSince)
+    } else {
+      clearInterval(this.timerId)
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.timerId)
   }
 
   onStartTimerHandle = () => {
     const { startTimer, id } = this.props
-
-    this.timerId = setInterval(() => {
-      this.forceUpdate()
-    }, 1000)
-
     startTimer(id)
   }
 
   onStopTimerHandle = () => {
     const { id, stopTimer } = this.props
     stopTimer(id)
+  }
+
+  startSetTimeout(runningSince) {
+    if (runningSince) {
+      this.timerId = setTimeout(() => {
+        clearInterval(this.timerId)
+        this.forceUpdate()
+      }, 1000)
+    }
   }
 
   render() {
